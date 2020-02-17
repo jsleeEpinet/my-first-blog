@@ -16,13 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views
+from django.conf import settings
 import debug_toolbar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout', kwargs={'next_page': '/'}),
     path('', include('blog.urls')),
-    path('__debug__/', include(debug_toolbar.urls)),
-
 ]
-
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
